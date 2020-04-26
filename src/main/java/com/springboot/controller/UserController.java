@@ -54,7 +54,6 @@ public class UserController {
 			correct = "";
 		} finally {
 		}
-		System.out.println(correct);
 		if(correct != null && enter.equals(correct)) {
 			return true;
 		} else {
@@ -102,11 +101,5 @@ public class UserController {
 		return true;
 	}
 	
-	@RequestMapping("/userList")
-	public String userList(Model model) {
-		List<User> userList = userService.getUserList();
-		model.addAttribute("userList", userList);
-		return "List";
-	}
 
 }
