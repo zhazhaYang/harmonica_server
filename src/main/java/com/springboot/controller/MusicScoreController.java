@@ -3,15 +3,10 @@ package com.springboot.controller;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,12 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.springboot.bean.ChangeScoreData;
 import com.springboot.bean.MusicScore;
-import com.springboot.bean.User;
 import com.springboot.service.MusicScoreService;
-import com.springboot.service.UserService;
 
 @Controller
 public class MusicScoreController {
@@ -71,13 +62,15 @@ public class MusicScoreController {
 	@ResponseBody
 	public String getByID(@RequestParam long id) {
 		MusicScore score = null;
-		long max = scoreService.getMaxID();
+		int max = scoreService.getMaxID();
 		if(id == 0 || id > max) {
 			return "";
 		}
 		while(score == null) {
 			try {
 				score = scoreService.getByID(id);
+//				score.getID();
+				System.out.println(score.getID());
 			} catch(Exception e) {
 				return "";
 			}
@@ -87,19 +80,27 @@ public class MusicScoreController {
 			}
 		}
 		
+		System.out.println(JSON.toJSONString(score));
 		return JSON.toJSONString(score);
+	}
+	
+	@RequestMapping(value="/practice/updateSupport", method = RequestMethod.GET)
+	@ResponseBody
+	public boolean updateSupportBy(@RequestParam(value = "iD", required = false) int iD, @RequestParam(value = "isAdd", required = false) boolean isAdd) {
+			return scoreService.updateSupportCount(iD, isAdd);
 	}
 
 	@SuppressWarnings("unused")
 	private String saveInLocal(MultipartFile data) {
 		String result = "";
 		String projectPath  = System.getProperty("user.dir");
-		String dirPath = projectPath + "/src/main/resources/static/"+ "musicScores";
+		String dirPath = projectPath + "/src/main/resources/static";
 		File file = new File(dirPath);
 		if(!file.exists()) {
 			file.mkdir();
 		}
-		String name = getRandomString();
+		String name = getRandomString() + data.getOriginalFilename();
+		System.out.println(name);
 		String scorePath = dirPath + "/" + name;
 		file = new File(scorePath);
 		try {

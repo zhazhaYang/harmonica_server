@@ -6,7 +6,7 @@ server:
  
 spring:
  thymeleaf:
-  prefix: classpath:/templates/
+  prefix: classpath:/static/
   suffix: .html
   mode: HTML5
   encoding: UTF-8

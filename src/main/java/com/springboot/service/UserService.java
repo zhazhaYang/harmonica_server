@@ -18,6 +18,10 @@ public interface UserService {
 	
 	User getUser(String account);
 	
+	String getName(String account);
+	
+	String getStudyAge(String account);
+	
 	Boolean isAccountExist(String account);
 	
 	Boolean isNameExist(String name);

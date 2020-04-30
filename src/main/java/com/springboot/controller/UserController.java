@@ -1,13 +1,8 @@
 package com.springboot.controller;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.springboot.bean.User;
 import com.springboot.service.UserService;
 
@@ -73,6 +67,30 @@ public class UserController {
 		return JSON.toJSONString(user);
 	}
 	
+	@RequestMapping(value = "/user/getName", method=RequestMethod.GET)
+	@ResponseBody
+	public String getNameByAccount(@RequestParam String account) {
+		String name = "";
+		try {
+			name = userService.getName(account);
+		} catch(Exception e) {
+			name = "";
+		}
+		return name;
+	}
+	
+	@RequestMapping(value = "/user/getStudyAge", method=RequestMethod.GET)
+	@ResponseBody
+	public String getYearsByAccount(@RequestParam String account) {
+		String name = "";
+		try {
+			name = userService.getStudyAge(account);
+		} catch(Exception e) {
+			name = "";
+		}
+		return name;
+	}
+	
 	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
 	@ResponseBody
 	public String update(@RequestBody User user) {
@@ -90,11 +108,10 @@ public class UserController {
 	@RequestMapping(value = "/user/password", method = RequestMethod.POST)
 	@ResponseBody
 	public Boolean changePwd(@RequestBody User user) {
-		Boolean result = true;
 		try {
 			userService.changePwd(user.getPwd(), user.getAccount());
 		} catch(Exception e) {
-			result = false;
+			return false;
 		} finally {
 			
 		}

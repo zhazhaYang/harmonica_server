@@ -7,11 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.springboot.bean.MusicScore;
-import com.springboot.bean.User;
 import com.springboot.dao.MusicScoreDao;
-import com.springboot.dao.UserDao;
 import com.springboot.service.MusicScoreService;
-import com.springboot.service.UserService;
 
 @Service
 @Transactional
@@ -46,12 +43,32 @@ public class MusicScoreServiceImpl implements MusicScoreService {
 	}
 	
 	@Override
-	public long getMaxID() {
+	public int getMaxID() {
 		try {
 			return scoreDao.getMaxID();
 		} catch(Exception e) {
+			System.out.println("get max catch");
 			return 0;
 		}
+	}
+	
+	@Override
+	public boolean updateSupportCount(int id, boolean isAdd) {
+		boolean result=true;
+		if(isAdd) {
+			try {
+				scoreDao.addSupportCount(id);
+			} catch(Exception e) {
+				result = false;
+			}
+		} else {
+			try {
+				scoreDao.subSupportCount(id);
+			} catch(Exception e) {
+				result = false;
+			}
+		}
+		return result;
 	}
 	
 }

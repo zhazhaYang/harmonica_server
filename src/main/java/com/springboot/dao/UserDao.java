@@ -18,7 +18,11 @@ public interface UserDao extends CommonDao<User> {
 	@Query(value="update user set pwd = ?1 where account = ?2", nativeQuery = true)
 	void changePwdByAccount(String pwd, String account);
 	
-//	@Query(value = "select name from user where account = ?", nativeQuery = true)
+	@Query(value = "select name from user where account = ?1", nativeQuery = true)
+	String getNameByAccount(String account);
+	
+	@Query(value = "select years from user where account = ?1", nativeQuery = true)
+	String getYearsByAccount(String account);
 	
 	
 //	@Query("select pwd from user where account = ?1")

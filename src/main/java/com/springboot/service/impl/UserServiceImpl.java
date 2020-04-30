@@ -26,6 +26,11 @@ public class UserServiceImpl implements UserService {
 		return userDao.getByAccount(account);
 	}
 	
+	@Override 
+	public String getName(String account) {
+		return userDao.getNameByAccount(account);
+	}
+	
 	@Override
 	public Boolean isAccountExist(String account) {
 		if(userDao.getByAccount(account) == null) {
@@ -67,6 +72,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getUserList() {
 		return userDao.findAll();
+	}
+
+	@Override
+	public String getStudyAge(String account) {
+		try {
+			return userDao.getYearsByAccount(account);
+		} catch(Exception e) {
+			return null;
+		}
+		
 	}
 
 }

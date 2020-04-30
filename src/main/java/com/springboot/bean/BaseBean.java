@@ -10,4 +10,8 @@ public class BaseBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	public Long getID() {
+		return id;
+	}
 }
